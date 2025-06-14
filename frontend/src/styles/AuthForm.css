@@ -139,3 +139,22 @@ input[type="email"] {
     color: #666;
     text-decoration: underline;
 }
+
+input[type="password"] {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.continue-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+}

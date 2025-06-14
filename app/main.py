@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks, status
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
 from sqlalchemy.orm import Session
@@ -12,7 +13,7 @@ from app.schemas import UserCreate, UserLogin, Token
 
 import asyncio
 
-SECRET_KEY = "supersecretkey"
+SECRET_KEY = "supersecretkey"  # Используйте .env в продакшене
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -20,6 +21,15 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+# Настройка CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Utils ---
 def get_db():
@@ -50,42 +60,41 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: Optional[str] = payload.get("sub")
-        if username is None:
+        email: Optional[str] = payload.get("sub")
+        if email is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
 
-    user = db.query(User).filter(User.username == username).first()
+    user = db.query(User).filter(User.email == email).first()
     if user is None:
         raise credentials_exception
     return user
 
-
 # --- Routes ---
 @app.post("/register", response_model=Token)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    if db.query(User).filter(User.username == user.username).first():
+    if db.query(User).filter(User.email == user.email).first():
         raise HTTPException(status_code=400, detail="User already exists")
 
     hashed_password = get_password_hash(user.password)
-    new_user = User(username=user.username, hashed_password=hashed_password)
+    new_user = User(email=user.email, hashed_password=hashed_password)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    token = create_token({"sub": new_user.username})
+    token = create_token({"sub": new_user.email})
     return {"access_token": token, "token_type": "bearer"}
 
 @app.post("/login", response_model=Token)
 def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
+    db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user or not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    token = create_token({"sub": db_user.username})
+    token = create_token({"sub": db_user.email})
     return {"access_token": token, "token_type": "bearer"}
 
 @app.get("/me")
 def read_current_user(current_user: User = Depends(get_current_user)):
-    return {"id": current_user.id, "username": current_user.username}
+    return {"id": current_user.id, "email": current_user.email}
