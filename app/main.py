@@ -75,25 +75,31 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 @app.post("/register", response_model=Token)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == user.email).first():
-        raise HTTPException(status_code=400, detail="User already exists")
-
-    hashed_password = get_password_hash(user.password)
-    new_user = User(email=user.email, hashed_password=hashed_password)
-    db.add(new_user)
+        raise HTTPException(status_code=400, detail="Email already registered")
+    if db.query(User).filter(User.username == user.username).first():
+        raise HTTPException(status_code=400, detail="Username already taken")
+    
+    hashed_password = pwd_context.hash(user.password)
+    db_user = User(email=user.email, username=user.username, hashed_password=hashed_password)
+    db.add(db_user)
     db.commit()
-    db.refresh(new_user)
+    db.refresh(db_user)
 
-    token = create_token({"sub": new_user.email})
-    return {"access_token": token, "token_type": "bearer"}
+    access_token = create_token(data={"sub": db_user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @app.post("/login", response_model=Token)
 def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.email == user.email).first()
-    if not db_user or not verify_password(user.password, db_user.hashed_password):
+    db_user = db.query(User).filter(
+        (User.email == user.email_or_username) |
+        (User.username == user.email_or_username)
+    ).first()
+
+    if not db_user or not pwd_context.verify(user.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
-    token = create_token({"sub": db_user.email})
-    return {"access_token": token, "token_type": "bearer"}
+    access_token = create_token(data={"sub": db_user.email})
+    return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/me")
 def read_current_user(current_user: User = Depends(get_current_user)):

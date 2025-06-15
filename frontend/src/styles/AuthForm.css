@@ -87,13 +87,16 @@ html,
     margin-bottom: 25px;
 }
 
-input[type="email"] {
+input[type="email"],
+input[type="password"],
+input[type="text"] {
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
     margin-bottom: 15px;
     width: 100%;
 }
+
 
 .continue-btn {
     padding: 12px;

@@ -6,6 +6,7 @@ import "../styles/AuthForm.css";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -23,17 +24,24 @@ const AuthForm = () => {
     setError("");
     setLoading(true);
 
-    // Валидация на фронтенде
+    if (!isLogin && username.trim().length < 3) {
+      setError("Имя пользователя должно быть не короче 3 символов");
+      setLoading(false);
+      return;
+    }
+
     if (!validateEmail(email)) {
       setError("Введите корректный email");
       setLoading(false);
       return;
     }
+
     if (password.length < 6) {
       setError("Пароль должен быть не менее 6 символов");
       setLoading(false);
       return;
     }
+
     if (!isLogin && password !== confirmPassword) {
       setError("Пароли не совпадают");
       setLoading(false);
@@ -42,16 +50,23 @@ const AuthForm = () => {
 
     try {
       const endpoint = isLogin ? "/login" : "/register";
-      const response = await axios.post(`http://localhost:8000${endpoint}`, {
-        email, // Исправлено: отправляем email вместо username
-        password,
-      });
+      const payload = isLogin
+        ? {
+            email_or_username: email,
+            password,
+          }
+        : {
+            email,
+            username,
+            password,
+          };
+
+      const response = await axios.post(`http://localhost:8000${endpoint}`, payload);
 
       const { access_token } = response.data;
       localStorage.setItem("token", access_token);
       navigate("/dashboard");
     } catch (err) {
-      // Улучшена обработка ошибок для отображения сообщений от бэкенда
       setError(err.response?.data?.detail || "Ошибка при обработке запроса");
     } finally {
       setLoading(false);
@@ -68,13 +83,21 @@ const AuthForm = () => {
           </button>
           <h1>{isLogin ? "Welcome Back" : "Create Account"}</h1>
           <p>
-            Please enter your{" "}
-            {isLogin ? "credentials to continue" : "details to register"}.
+            Please enter your {isLogin ? "credentials to continue" : "details to register"}.
           </p>
           <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            )}
             <input
               type="email"
-              placeholder="Email"
+              placeholder={isLogin ? "Email or Username" : "Email"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

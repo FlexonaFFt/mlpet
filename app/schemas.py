@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr, validator
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
+    username: str 
 
     @validator("password")
     def validate_password(cls, value):
@@ -11,7 +12,7 @@ class UserCreate(BaseModel):
         return value
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    email_or_username: str
     password: str
 
 class Token(BaseModel):
