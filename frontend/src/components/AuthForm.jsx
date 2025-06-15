@@ -1,77 +1,89 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Silk from "./Silk";
-import "../styles/AuthForm.css";
+import { useState } from 'react';
+import axios from 'axios';
+import Chat from './Chat';
+import Silk from './Silk';
+import '../styles/AuthForm.css';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const validateEmail = (email) => {
+  const validateEmailOrUsername = (input) => {
+    if (isLogin) return true;
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
+    return re.test(input);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
 
     if (!isLogin && username.trim().length < 3) {
-      setError("Имя пользователя должно быть не короче 3 символов");
+      setError('Имя пользователя должно быть не короче 3 символов');
       setLoading(false);
       return;
     }
 
-    if (!validateEmail(email)) {
-      setError("Введите корректный email");
+    if (!isLogin && !validateEmailOrUsername(email)) {
+      setError('Введите корректный email');
       setLoading(false);
       return;
     }
 
     if (password.length < 6) {
-      setError("Пароль должен быть не менее 6 символов");
+      setError('Пароль должен быть не менее 6 символов');
       setLoading(false);
       return;
     }
 
     if (!isLogin && password !== confirmPassword) {
-      setError("Пароли не совпадают");
+      setError('Пароли не совпадают');
       setLoading(false);
       return;
     }
 
     try {
-      const endpoint = isLogin ? "/login" : "/register";
+      const endpoint = isLogin ? '/login' : '/register';
       const payload = isLogin
-        ? {
-            email_or_username: email,
-            password,
-          }
-        : {
-            email,
-            username,
-            password,
-          };
+        ? { email_or_username: email, password }
+        : { email, username, password };
 
       const response = await axios.post(`http://localhost:8000${endpoint}`, payload);
-
       const { access_token } = response.data;
-      localStorage.setItem("token", access_token);
-      navigate("/dashboard");
+      localStorage.setItem('token', access_token);
+      setIsAuthenticated(true);
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (err) {
-      setError(err.response?.data?.detail || "Ошибка при обработке запроса");
+      if (err.response?.status === 401) {
+        setError('Неверные учетные данные');
+      } else if (err.response?.status === 400) {
+        setError(err.response?.data?.detail || 'Ошибка при обработке запроса');
+      } else {
+        setError('Ошибка сервера. Попробуйте позже.');
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+  };
+
+  if (isAuthenticated) {
+    return <Chat onLogout={handleLogout} />;
+  }
 
   return (
     <div className="container">
@@ -79,12 +91,10 @@ const AuthForm = () => {
         <div className="left">
           <div className="circle" />
           <button className="signup-btn" onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? "Sign Up" : "Sign In"}
+            {isLogin ? 'Sign Up' : 'Sign In'}
           </button>
-          <h1>{isLogin ? "Welcome Back" : "Create Account"}</h1>
-          <p>
-            Please enter your {isLogin ? "credentials to continue" : "details to register"}.
-          </p>
+          <h1>{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+          <p>Please enter your {isLogin ? 'credentials to continue' : 'details to register'}.</p>
           <form onSubmit={handleSubmit}>
             {!isLogin && (
               <input
@@ -96,8 +106,8 @@ const AuthForm = () => {
               />
             )}
             <input
-              type="email"
-              placeholder={isLogin ? "Email or Username" : "Email"}
+              type="text"
+              placeholder={isLogin ? 'Email or Username' : 'Email'}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -120,7 +130,7 @@ const AuthForm = () => {
             )}
             {error && <p className="error-message">{error}</p>}
             <button className="continue-btn" type="submit" disabled={loading}>
-              {loading ? "Loading..." : isLogin ? "Continue" : "Sign Up"}
+              {loading ? 'Loading...' : isLogin ? 'Continue' : 'Sign Up'}
             </button>
           </form>
           <div className="divider">or continue with</div>
@@ -130,18 +140,12 @@ const AuthForm = () => {
             <button className="social-btn">T</button>
           </div>
           <div className="terms">
-            By continuing, you agree to our <a href="#">Terms</a> and{" "}
+            By continuing, you agree to our <a href="#">Terms</a> and{' '}
             <a href="#">Privacy Policy</a>.
           </div>
         </div>
         <div className="right">
-          <Silk
-            speed={5}
-            scale={1}
-            color="#7B7481"
-            noiseIntensity={1.5}
-            rotation={0}
-          />
+          <Silk speed={5} scale={1} color="#7B7481" noiseIntensity={1.5} rotation={0} />
         </div>
       </div>
     </div>

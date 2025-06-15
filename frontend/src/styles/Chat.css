@@ -1,0 +1,27 @@
+.chat-container {
+  padding: 2rem;
+  background: #1a1a1a;
+  color: #eee;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.error-message {
+  color: #ff5555;
+}
+
+.logout-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #444;
+}
