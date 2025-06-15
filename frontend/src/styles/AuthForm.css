@@ -2,105 +2,119 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body,
-html,
-#root {
+  }
+  
+  body,
+  html,
+  #root {
     font-family: "Helvetica Neue", sans-serif;
-    background: linear-gradient(to top, #f4f0fb, #e6e4f2);
+    background: linear-gradient(to top, #1a1a1a, #2a2a2a);
     height: 100vh;
     width: 100vw;
-    margin: 0;
-    padding: 0;
     overflow: hidden;
-}
-
-.container {
+  }
+  
+  .container {
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: white;
-}
-
-.login-box {
+    background: black;
+  }
+  
+  .login-box {
     width: 100%;
     height: 100%;
     display: flex;
     overflow: hidden;
-}
-
-.left,
-.right {
+  }
+  
+  .left,
+  .right {
     flex: 1;
     height: 100%;
     position: relative;
-}
-
-.right canvas {
+  }
+  
+  .right canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100% !important;
     height: 100% !important;
     display: block;
-}
-
-.left {
+  }
+  
+  .left {
     padding: 60px;
-    background-color: #f9f8ff;
+    background-color: #1f1f1f;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
-
-.circle {
+    color: #f0f0f0;
+  }
+  
+  .circle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #c8bfff, #e6e4ff);
+    background: linear-gradient(135deg, #2e2e2e, #4a4a4a);
     margin-bottom: 20px;
-}
-
-.signup-btn {
+  }
+  
+  .signup-btn {
     align-self: flex-start;
     padding: 5px 15px;
     border: none;
-    background-color: #ded7ff;
-    color: #4b3f9c;
+    background-color: #333;
+    color: #ccc;
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
     margin-bottom: 30px;
-}
-
-.left h1 {
+    transition: background-color 0.2s ease;
+  }
+  
+  .signup-btn:hover {
+    background-color: #444;
+  }
+  
+  .left h1 {
     font-size: 24px;
     margin-bottom: 15px;
-}
-
-.left p {
+    color: #ffffff;
+  }
+  
+  .left p {
     font-size: 14px;
-    color: #333;
+    color: #bbbbbb;
     margin-bottom: 25px;
-}
-
-input[type="email"],
-input[type="password"],
-input[type="text"] {
+  }
+  
+  input {
     padding: 12px;
     border-radius: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #ffffff;
     margin-bottom: 15px;
     width: 100%;
-}
-
-
-.continue-btn {
+    transition: border 0.2s ease;
+  }
+  
+  input::placeholder {
+    color: #888888;
+  }
+  
+  input:focus {
+    border: 1px solid #888;
+    outline: none;
+  }
+  
+  .continue-btn {
     padding: 12px;
-    background-color: #b9aefc;
+    background-color: #3c3c3c;
     color: white;
     font-weight: bold;
     border: none;
@@ -108,56 +122,61 @@ input[type="text"] {
     width: 100%;
     cursor: pointer;
     margin-bottom: 20px;
-}
-
-.divider {
+    transition: background-color 0.2s ease;
+  }
+  
+  .continue-btn:hover {
+    background-color: #4d4d4d;
+  }
+  
+  .continue-btn:disabled {
+    background-color: #2a2a2a;
+    color: #777;
+    cursor: not-allowed;
+  }
+  
+  .divider {
     text-align: center;
-    color: #aaa;
+    color: #666;
     margin: 10px 0;
-}
-
-.socials {
+  }
+  
+  .socials {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
-}
-
-.social-btn {
+  }
+  
+  .social-btn {
     flex: 1;
     padding: 10px;
-    background-color: #eceaf7;
+    background-color: #2e2e2e;
     border: none;
     border-radius: 10px;
     font-size: 18px;
+    color: #ccc;
     cursor: pointer;
-}
-
-.terms {
+    transition: background-color 0.2s ease;
+  }
+  
+  .social-btn:hover {
+    background-color: #3a3a3a;
+  }
+  
+  .terms {
     font-size: 11px;
-    color: #888;
+    color: #777;
     text-align: center;
-}
-
-.terms a {
-    color: #666;
+  }
+  
+  .terms a {
+    color: #999;
     text-decoration: underline;
-}
-
-input[type="password"] {
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.continue-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.error-message {
-    color: red;
+  }
+  
+  .error-message {
+    color: #ff6b6b;
     font-size: 12px;
     margin-bottom: 10px;
-}
+  }
+  
