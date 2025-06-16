@@ -1,27 +1,115 @@
 .chat-container {
-  padding: 2rem;
-  background: #1a1a1a;
-  color: #eee;
+  padding: 20px;
+  position: relative;
+  background-color: #1e1e1e; 
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  color: #d4d4d4; 
 }
 
 .error-message {
-  color: #ff5555;
+  color: #ff5555; 
 }
 
 .logout-btn {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
-  border-radius: 4px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #ff4444; 
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .logout-btn:hover {
-  background-color: #444;
+  background-color: #cc0000;
+}
+
+.menu-area {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px; 
+  height: 50px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-area:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+}
+
+.menu-btn {
+  width: 40px; 
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.menu-btn:hover {
+  transform: scale(1.1);
+}
+
+.menu-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #2d2d2d; 
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 300px;
+  color: #d4d4d4; 
+}
+
+.popup-content h2 {
+  margin-bottom: 15px;
+}
+
+.popup-content p {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.popup-content p:hover {
+  color: #ffb700; 
+}
+
+.popup-content button {
+  margin-top: 15px;
+  padding: 5px 15px;
+  background-color: #ffb700; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #e59400;
 }
