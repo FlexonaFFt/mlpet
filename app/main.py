@@ -22,7 +22,6 @@ Base.metadata.create_all(bind=engine)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-# Настройка CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -103,4 +102,4 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
 
 @app.get("/me")
 def read_current_user(current_user: User = Depends(get_current_user)):
-    return {"id": current_user.id, "email": current_user.email}
+    return {"id": current_user.id, "email": current_user.email, "username": current_user.username}

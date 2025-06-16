@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import '../styles/Chat.css';
 
 const Chat = ({ onLogout }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -12,6 +14,7 @@ const Chat = ({ onLogout }) => {
       if (!token) {
         setError('Токен отсутствует. Пожалуйста, войдите снова.');
         onLogout();
+        navigate('/'); 
         return;
       }
 
@@ -27,6 +30,7 @@ const Chat = ({ onLogout }) => {
           setError('Сессия истекла. Пожалуйста, войдите снова.');
           localStorage.removeItem('token');
           onLogout();
+          navigate('/'); 
         } else {
           setError('Ошибка загрузки данных пользователя.');
         }
@@ -34,7 +38,7 @@ const Chat = ({ onLogout }) => {
     };
 
     fetchUser();
-  }, [onLogout]);
+  }, [onLogout, navigate]);
 
   return (
     <div className="chat-container">
@@ -46,7 +50,13 @@ const Chat = ({ onLogout }) => {
             Добро пожаловать, <strong>{user.username || 'Пользователь'}</strong>!
           </p>
           <p>Email: {user.email}</p>
-          <button onClick={onLogout} className="logout-btn">
+          <button
+            onClick={() => {
+              onLogout();
+              navigate('/'); 
+            }}
+            className="logout-btn"
+          >
             Выйти
           </button>
         </>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Chat from './Chat';
 import Silk from './Silk';
 import '../styles/AuthForm.css';
 
@@ -12,7 +12,7 @@ const AuthForm = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
   const validateEmailOrUsername = (input) => {
     if (isLogin) return true;
@@ -58,11 +58,11 @@ const AuthForm = () => {
       const response = await axios.post(`http://localhost:8000${endpoint}`, payload);
       const { access_token } = response.data;
       localStorage.setItem('token', access_token);
-      setIsAuthenticated(true);
       setUsername('');
       setEmail('');
       setPassword('');
       setConfirmPassword('');
+      navigate('/chat'); // Перенаправляем на /chat
     } catch (err) {
       if (err.response?.status === 401) {
         setError('Неверные учетные данные');
@@ -75,15 +75,6 @@ const AuthForm = () => {
       setLoading(false);
     }
   };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
-
-  if (isAuthenticated) {
-    return <Chat onLogout={handleLogout} />;
-  }
 
   return (
     <div className="container">
