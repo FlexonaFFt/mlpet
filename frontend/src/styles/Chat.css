@@ -44,9 +44,27 @@
   background-color: rgba(255, 255, 255, 0.1); 
 }
 
+.menu-trigger {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 4px;
+}
+
+.menu-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .menu-btn {
-  width: 40px; 
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border: none;
   background: none;
   cursor: pointer;
@@ -58,6 +76,184 @@
 
 .menu-btn:hover {
   transform: scale(1.1);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: #1a1a1a;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-content {
+  padding: 20px;
+  color: #d4d4d4;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background-color: #2d2d2d;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.user-info h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.user-info p {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #d4d4d4;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.nav-item.active {
+  background-color: #2d2d2d;
+}
+
+.nav-item:hover {
+  background-color: #2d2d2d;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 2px 6px;
+  background-color: rgba(0, 150, 150, 0.2);
+  color: #00cccc;
+  border-radius: 4px;
+}
+
+.search-section {
+  margin: 24px 0;
+  position: relative;
+}
+
+.search-section input {
+  width: 100%;
+  padding: 8px 12px;
+  padding-right: 40px;
+  background-color: #2d2d2d;
+  border: none;
+  border-radius: 6px;
+  color: #d4d4d4;
+}
+
+.shortcut {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #888;
+  background-color: #1a1a1a;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.history-section {
+  margin-top: 24px;
+}
+
+.history-section h4 {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.history-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-items a {
+  color: #d4d4d4;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 4px 0;
+}
+
+.history-items a:hover {
+  color: #fff;
+}
+
+.upgrade-section {
+  margin-top: 24px;
+  padding: 12px;
+}
+
+.upgrade-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2d2d2d;
+  border: none;
+  border-radius: 6px;
+  color: #d4d4d4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.upgrade-btn:hover {
+  background-color: #3d3d3d;
+}
+
+.card-icon {
+  font-size: 20px;
+}
+
+.sidebar-content h2 {
+  margin-bottom: 15px;
+}
+
+.sidebar-content p {
+  margin: 10px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.sidebar-content p:hover {
+  color: #ffb700;
 }
 
 .menu-btn svg {
@@ -112,4 +308,31 @@
 
 .popup-content button:hover {
   background-color: #e59400;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.close-sidebar-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-sidebar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.close-sidebar-btn svg {
+  transform: rotate(180deg);
 }
