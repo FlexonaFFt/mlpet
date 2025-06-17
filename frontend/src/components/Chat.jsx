@@ -72,10 +72,10 @@ const Chat = ({ onLogout }) => {
             <div className="sidebar-content" onClick={(e) => e.stopPropagation()}>
               <div className="sidebar-header">
                 <div className="user-section">
-                  <div className="user-avatar">IZ</div>
+                  <div className="user-avatar">GG</div>
                   <div className="user-info">
                     <h3>Personal</h3>
-                    <p>Le Chat Free</p>
+                    <p>Chat Free</p>
                   </div>
                 </div>
                 <button className="close-sidebar-btn" onClick={toggleSidebar}>
@@ -104,38 +104,26 @@ const Chat = ({ onLogout }) => {
                 </a>
                 <a href="#" className="nav-item">
                   <span>Agents</span>
-                  <div className="badge">Beta</div>
+                  <div className="badge">Test</div>
                 </a>
                 <a href="#" className="nav-item">
                   <span>Libraries</span>
-                  <div className="badge">Beta</div>
+                  <div className="badge">Test</div>
                 </a>
                 <a href="#" className="nav-item">
                   <span>Connections</span>
-                  <div className="badge">Beta</div>
+                  <div className="badge">Test</div>
                 </a>
-              </nav>
-
-              <div className="search-section">
-                <input type="text" placeholder="Search" />
-                <span className="shortcut">⌘K</span>
-              </div>
+              </nav> 
 
               <div className="history-section">
-                <h4>Previous 30 days</h4>
+                <h4>History</h4>
                 <div className="history-items">
-                  <a href="#">Загрузить Docker-образ на GitHub</a>
-                  <a href="#">Matrix Eigenvalues</a>
-                  <a href="#">Матрица и её собственные значения</a>
-                  <a href="#">Git: Отменить Ребейз</a>
+                  <a href="#">Заглушка чата 1</a>
+                  <a href="#">Заглушка чата 2</a>
+                  <a href="#">Заглушка чата 3</a>
+                  <a href="#">Заглушка чата 4</a>
                 </div>
-              </div>
-
-              <div className="upgrade-section">
-                <button className="upgrade-btn">
-                  <span>Upgrade to Pro</span>
-                  <span className="card-icon">💳</span>
-                </button>
               </div>
             </div>
           </div>

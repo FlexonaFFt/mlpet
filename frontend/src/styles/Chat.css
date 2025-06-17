@@ -247,7 +247,6 @@
 }
 
 .sidebar-content p {
-  margin: 10px 0;
   cursor: pointer;
   transition: color 0.2s;
 }
