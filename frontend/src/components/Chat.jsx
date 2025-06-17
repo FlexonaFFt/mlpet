@@ -72,9 +72,9 @@ const Chat = ({ onLogout }) => {
             <div className="sidebar-content" onClick={(e) => e.stopPropagation()}>
               <div className="sidebar-header">
                 <div className="user-section">
-                  <div className="user-avatar">GG</div>
+                  <div className="user-avatar">{user.username ? user.username.slice(0, 2).toUpperCase(): 'U'}</div>
                   <div className="user-info">
-                    <h3>Personal</h3>
+                    <h3>{user.username || "Personal"}</h3>
                     <p>Chat Free</p>
                   </div>
                 </div>
@@ -82,8 +82,8 @@ const Chat = ({ onLogout }) => {
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
-                    width="20"
-                    height="20"
+                    width="24"
+                    height="24"
                     fill="none"
                     stroke="#d4d4d4"
                     strokeWidth="1.5"
